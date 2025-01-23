@@ -1,5 +1,5 @@
 from rest_framework.routers import DefaultRouter
-from django.urls import path, include
+from django.urls import include
 from .views import (PostViewSet, CommentViewSet, FollowViewSet,
                     GroupViewSet)
 
