@@ -122,7 +122,6 @@ class Follow(models.Model):
         unique_together = ['user', 'following']
         ordering = ['-created']
 
-
     def __str__(self):
         """
         Return a string representation of the subscription.
