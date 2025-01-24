@@ -13,9 +13,8 @@ from django_filters.rest_framework import DjangoFilterBackend
 
 
 class PostViewSet(ModelViewSet):
-    """
-    ViewSet for managing posts.
-    """
+    """ViewSet for managing posts."""
+
     queryset = Post.objects.all()
     serializer_class = PostSerializer
     permission_classes = [IsAuthenticatedOrReadOnly, IsAuthorOrReadOnly]
@@ -51,7 +50,7 @@ class CommentViewSet(ModelViewSet):
 
     def get_queryset(self):
         """
-        Retrieves the queryset of comments for a specific post.
+        Retrieve the queryset of comments for a specific post.
 
         Filters comments by the `post_id` parameter in the URL.
 
@@ -116,9 +115,8 @@ class FollowViewSet(ModelViewSet):
 
 
 class GroupViewSet(ReadOnlyModelViewSet):
-    """
-    ViewSet for managing groups.
-    """
+    """ViewSet for managing groups."""
+
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]

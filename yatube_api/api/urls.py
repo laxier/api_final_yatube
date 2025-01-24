@@ -7,7 +7,7 @@ router = DefaultRouter()
 
 # Регистрация маршрутов
 router.register(r'posts', PostViewSet, basename='post')
-router.register(r'posts/(?P<post_id>\d+)/comments', CommentViewSet, 
+router.register(r'posts/(?P<post_id>\d+)/comments', CommentViewSet,
                 basename='comments')
 router.register(r'follow', FollowViewSet, basename='follow')
 router.register(r'groups', GroupViewSet, basename='group')

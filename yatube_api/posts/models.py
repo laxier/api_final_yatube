@@ -30,14 +30,14 @@ class Group(models.Model):
 
 class Post(models.Model):
     """
-       Represent a post in the system.
+    Represent a post in the system.
 
-       Attributes:
-           author: The user who created the post.
-           text: The content of the post.
-           pub_date: The date and time when the post was published.
-           image: An optional image attached to the post.
-           group: An optional group to which the post belongs.
+    Attributes:
+        author: The user who created the post.
+        text: The content of the post.
+        pub_date: The date and time when the post was published.
+        image: An optional image attached to the post.
+        group: An optional group to which the post belongs.
     """
 
     text = models.TextField()
@@ -51,25 +51,26 @@ class Post(models.Model):
 
     def __str__(self):
         """
-            Return a string representation of the post instance.
+        Return a string representation of the post instance.
 
-            Returns:
-                str: The username of the author and the first 20 characters of
-                the post text.
+        Returns:
+            str: The username of the author and the first 20 characters of
+            the post text.
         """
         return self.text
 
 
 class Comment(models.Model):
     """
-        Represent a comment on a post.
+    Represent a comment on a post.
 
-        Attributes:
-            author (User): The user who created the comment.
-            post (Post): The post to which the comment belongs.
-            text (str): The text content of the comment.
-            created (datetime): The date and time when the comment was created.
+    Attributes:
+        author (User): The user who created the comment.
+        post (Post): The post to which the comment belongs.
+        text (str): The text content of the comment.
+        created (datetime): The date and time when the comment was created.
     """
+
     author = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name='comments')
     post = models.ForeignKey(
@@ -119,6 +120,7 @@ class Follow(models.Model):
         Enforces unique subscription pairs and adds a constraint to prevent
         self-subscription.
         """
+
         unique_together = ['user', 'following']
         ordering = ['-created']
 
