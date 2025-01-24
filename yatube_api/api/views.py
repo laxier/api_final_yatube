@@ -98,7 +98,8 @@ class FollowViewSet(ModelViewSet):
 
     def perform_create(self, serializer):
         """
-        Automatically set the user to the authenticated user and check for duplicate follows.
+        Automatically set the user to the authenticated user
+        and check for duplicate follows.
         """
         user = self.request.user
         following = serializer.validated_data['following']
