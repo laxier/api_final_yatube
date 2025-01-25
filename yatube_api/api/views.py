@@ -12,6 +12,7 @@ from rest_framework.filters import SearchFilter
 from django.db.models import Q
 from rest_framework.response import Response
 
+
 class PostViewSet(ModelViewSet):
     """ViewSet for managing posts."""
 
@@ -30,6 +31,7 @@ class PostViewSet(ModelViewSet):
 
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
+
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
 
