@@ -10,7 +10,7 @@ from rest_framework.exceptions import PermissionDenied
 from .paginators import PostPagination
 from rest_framework.filters import SearchFilter
 from django.db.models import Q
-
+from rest_framework.response import Response
 
 class PostViewSet(ModelViewSet):
     """ViewSet for managing posts."""
@@ -20,6 +20,16 @@ class PostViewSet(ModelViewSet):
     permission_classes = [IsAuthenticatedOrReadOnly, IsAuthorOrReadOnly]
     pagination_class = PostPagination
 
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        # Пытаемся применить пагинацию
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
 
