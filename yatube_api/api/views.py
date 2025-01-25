@@ -9,7 +9,7 @@ from .permissions import IsAuthorOrReadOnly
 from rest_framework.exceptions import PermissionDenied
 from .paginators import PostPagination
 from rest_framework.filters import SearchFilter
-from django_filters.rest_framework import DjangoFilterBackend
+from django.db.models import Q
 
 
 class PostViewSet(ModelViewSet):
@@ -83,21 +83,33 @@ class FollowViewSet(ModelViewSet):
     ViewSet for managing follows.
     Only authenticated users can access this endpoint.
     """
+
     queryset = Follow.objects.all()
     serializer_class = FollowSerializer
     permission_classes = [IsAuthenticated]
-    filter_backends = [SearchFilter, DjangoFilterBackend]
+    filter_backends = [SearchFilter]
     search_fields = ['following__username']
 
     def get_queryset(self):
         """
-        Return only the follows of the current user.
+        Optionally restricts the returned follows to a filtered subset.
+
+        based on query parameters.
         """
-        return Follow.objects.filter(user=self.request.user)
+        queryset = super().get_queryset()
+        following_username = (
+            self.request.query_params.get('search', None)
+        )
+        if following_username:
+            queryset = queryset.filter(
+                Q(following__username__icontains=following_username)
+            )
+
+        return queryset.filter(user=self.request.user)
 
     def perform_create(self, serializer):
         """
-        Automatically set the user to the authenticated user
+        Automatically set the user to the authenticated user.
         and check for duplicate follows.
         """
         user = self.request.user
